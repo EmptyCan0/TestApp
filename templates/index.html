@@ -2,16 +2,22 @@
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
-        <title>テストweb</title>
-        <link rel="stylesheet" href="styles.css">
+        <title>アップロードフォームの練習</title>
+        <link rel="stylesheet" href="../static/css/styles.css">
     </head>
 
     <body>
     <header>
-
+        <p>アップロードフォームの練習</p>
     </header>
+    
     <main>
         <h1>h1タグが一番大きい文字になる</h1>
+
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit">Upload</button>
+        </form>
 
         <label for="box">セレクトボックスのラベル</label>
         <select id="box">
