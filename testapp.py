@@ -2,6 +2,8 @@ from crypt import methods
 from flask import Flask, render_template, request, redirect
 import os
 
+import logging
+
 app = Flask(__name__)
 
 # アップロードされたファイルを保存するディレクトリ
@@ -13,6 +15,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 
 @app.route('/')
