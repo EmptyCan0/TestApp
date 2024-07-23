@@ -20,9 +20,15 @@ logging.basicConfig(filename='logs/app.log', level=logging.DEBUG)
 
 @app.route('/')
 def index():
-	return render_template(
+    app.logger.info("upload開始")
+    return render_template(
         'index.html'
     )
+
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return f'File {filename} uploaded successfully!'
 
 @app.route('/upload',methods=['POST'])
 def upload_file():
@@ -39,7 +45,7 @@ def upload_file():
         return redirect(request.url)
     if file and allowed_file(file.filename):
         app.logger.info("ファイルのじょうほうOK ")
-        filename = file.filename
+        filename = file.filename 
         print(filename)
         app.logger.info(filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -49,4 +55,6 @@ def upload_file():
         return 'Invalid file type.'
 
 if __name__ == "__main__":
-	app.run(debug=True)
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+    app.run(debug=True)
