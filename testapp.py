@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect
 import os
 
 import logging
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
 
@@ -16,7 +17,12 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-logging.basicConfig(filename='logs/app.log', level=logging.DEBUG)
+
+handler = RotatingFileHandler('logs/app.log', maxBytes=10000, backupCount=1)
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
 
 @app.route('/')
 def index():
